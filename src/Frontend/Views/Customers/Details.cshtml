@@ -1,0 +1,60 @@
+@model CustomerDetailModel
+@{
+    ViewData["Title"] = Model.CompanyName;
+}
+
+<a asp-action="Index" class="btn btn-sm btn-outline-secondary mb-4">&larr; Back to Customers</a>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0">@Model.CompanyName <small class="text-muted">(@Model.CustomerId)</small></h5>
+    </div>
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Contact</dt>
+            <dd class="col-sm-9">@(Model.ContactName ?? "—")</dd>
+            <dt class="col-sm-3">City</dt>
+            <dd class="col-sm-9">@(Model.City ?? "—")</dd>
+            <dt class="col-sm-3">Country</dt>
+            <dd class="col-sm-9">@(Model.Country ?? "—")</dd>
+        </dl>
+    </div>
+</div>
+
+<h5>Order History <span class="badge bg-secondary">@Model.Orders.Count()</span></h5>
+
+@if (!Model.Orders.Any())
+{
+    <p class="text-muted">No orders found.</p>
+}
+else
+{
+    <table class="table table-bordered align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th class="text-end">Total Value</th>
+                <th class="text-center">Products</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var o in Model.Orders.OrderByDescending(x => x.OrderDate))
+            {
+                <tr>
+                    <td>#@o.OrderId</td>
+                    <td>@(o.OrderDate?.ToString("d MMM yyyy") ?? "—")</td>
+                    <td class="text-end">$@o.TotalValue.ToString("N2")</td>
+                    <td class="text-center">@o.ProductCount</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot class="table-light fw-bold">
+            <tr>
+                <td colspan="2">Total</td>
+                <td class="text-end">$@Model.Orders.Sum(o => o.TotalValue).ToString("N2")</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+}
