@@ -224,7 +224,7 @@ NorthwindTraders/
 
 
 ## Claude Prompts
-Prompt 1:
+### Prompt 1:
 
 You are a software architect. I need you to design a clean and maintainable microservice backend and frontend using ASP.NET and MVC. 
 Please do consider adding gatekeeper api with JWT authentication between the frontend and the backend AS the microservice architecture requires.
@@ -266,6 +266,6 @@ verifying.
 
 At last please do try to build it and fix the build errors, also make an appropriate gitignore in the root directory
 
-Prompt 2:
+### Prompt 2:
 
 Please do add, logging in file for every day, in meaning every ned day new file .log should be available, also please do add swagger for the backend api.
