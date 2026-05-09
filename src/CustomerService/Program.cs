@@ -1,37 +1,63 @@
 using Microsoft.EntityFrameworkCore;
 using NorthwindTraders.CustomerService.Data;
 using NorthwindTraders.CustomerService.Repositories;
+using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File(
+        path: "logs/customerservice-.log",
+        rollingInterval: RollingInterval.Day,
+        retainedFileCountLimit: 30,
+        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SourceContext} {Message:lj}{NewLine}{Exception}")
+    .CreateLogger();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
-
-builder.Services.AddDbContext<NorthwindContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    Log.Information("CustomerService starting up");
 
-app.UseExceptionHandler(errorApp =>
-{
-    errorApp.Run(async context =>
+    var builder = WebApplication.CreateBuilder(args);
+    builder.Host.UseSerilog();
+
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+
+    builder.Services.AddDbContext<NorthwindContext>(options =>
+        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+    builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+    builder.Services.AddControllers();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen(c =>
     {
-        context.Response.StatusCode = 500;
-        context.Response.ContentType = "application/json";
-        await context.Response.WriteAsJsonAsync(new { error = "An unexpected error occurred." });
+        c.SwaggerDoc("v1", new() { Title = "Northwind CustomerService API", Version = "v1" });
     });
-});
 
-app.UseHttpsRedirection();
-app.MapControllers();
-app.Run();
+    var app = builder.Build();
+
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CustomerService v1"));
+
+    app.UseExceptionHandler(errorApp =>
+    {
+        errorApp.Run(async context =>
+        {
+            context.Response.StatusCode = 500;
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsJsonAsync(new { error = "An unexpected error occurred." });
+        });
+    });
+
+    app.UseHttpsRedirection();
+    app.MapControllers();
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "CustomerService terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
