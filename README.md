@@ -221,3 +221,51 @@ NorthwindTraders/
 - The Gateway validates the JWT on every `/api/customers` request before forwarding to CustomerService.
 - The Frontend stores the JWT in the server-side session (not in the browser) — the token never reaches JavaScript.
 - For production: replace the hard-coded test users with a real user table and BCrypt-hashed passwords stored in the database; enforce HTTPS; use a secrets manager for the JWT key.
+
+
+## Claude Prompts
+Prompt 1:
+
+You are a software architect. I need you to design a clean and maintainable microservice backend and frontend using ASP.NET and MVC. 
+Please do consider adding gatekeeper api with JWT authentication between the frontend and the backend AS the microservice architecture requires.
+Also we want the app to be using MySql DB first model with Entiry Framework (the latest version). Also we need some mechanisms to make our app safe such as
+Input validation, Rate limiting, HTTPS Only, CORS policy, Safe error handling, Secure password hashing. The app is for testing purposes only and plase do generate a
+comprehensive README.md so we can run it locally. Since is for testing do not overdo it we need it as simple as possible but having the core principles presented.
+THe app should be made using .NET Core 8 preferably and be able to be run on windows or linux.
+
+Business Scenario:
+Northwind Traders is a fictional company that sells food products to customers 
+worldwide. The business needs a simple internal tool that allows staff to look up 
+customers and review their order history.
+Your task is to build a back-end service that exposes this data in a clean, well-structured 
+way.
+
+What the Application Should Do:
+1. Customer Overview
+Staff should be able to retrieve a list of customers; with each customer's name and the 
+number of orders they have placed. It should be possible to search or filter by customer 
+name.
+2. Customer Detail
+When a specific customer is selected, the service should return the customer's details 
+along with a summary of their order history. For each order, the following should be 
+available:
+• The total value of the order
+• The number of products included in the order
+
+3. Structure of Your Solution
+We leave the architecture entirely to you. Here are a few things to keep in mind:
+• If you do build a front-end, it should communicate with the back end exclusively over 
+HTTP — it should not have direct access to the database layer.
+• You may structure the solution with as many projects or layers as you feel is 
+appropriate.
+
+4. Testing
+Ideally, include at least one automated test. There is no requirement for full coverage —
+we are simply interested in how you think about testability and what you consider worth 
+verifying.
+
+At last please do try to build it and fix the build errors, also make an appropriate gitignore in the root directory
+
+Prompt 2:
+
+Please do add, logging in file for every day, in meaning every ned day new file .log should be available, also please do add swagger for the backend api.
