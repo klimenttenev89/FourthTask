@@ -42,6 +42,10 @@ coverage/
 *.coveragexml
 *.coverage
 
+## Logs
+logs/
+*.log
+
 ## Secrets / environment
 appsettings.Production.json
 appsettings.local.json
