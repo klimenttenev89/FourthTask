@@ -126,6 +126,20 @@ dotnet ef dbcontext scaffold \
   --force
 ```
 
+## Swagger UI
+
+| Service         | URL                           | Auth required |
+|-----------------|-------------------------------|---------------|
+| Gateway         | http://localhost:5000/swagger | No — use it to obtain a token, then authorize proxied routes |
+| CustomerService | http://localhost:5001/swagger | No — internal port, JWT is not enforced here |
+
+**Using the Gateway Swagger:**
+1. Call `POST /api/auth/login` with your credentials to receive a token.
+2. Click **Authorize** (top-right lock icon), paste the token, and confirm.
+3. All subsequent requests in that session include the `Authorization: Bearer` header.
+
+> **Note:** `http://localhost:5001/swagger` gives unauthenticated access to the internal service. In production this port must not be publicly reachable.
+
 ## API Reference
 
 All requests to CustomerService go through the Gateway at `http://localhost:5000`.  
