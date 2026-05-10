@@ -320,3 +320,6 @@ At last please do try to build it and fix the build errors, also make an appropr
 ### Prompt 2:
 
 Please do add, logging in file for every day, in meaning every ned day new file .log should be available, also please do add swagger for the backend api.
+
+### Prompt 3:
+In the root of the current project i added a Folder BuildAndRun, please do add a scripts for Linux and Windows for easy build and run according to folders inside (Linux, Windows). Please 1 script for build for windows, 3 scripts for run for windows, 1 script for build for linux and 3 for run. Also add the instructions for the scripts in the readme.md before the manual build and run.
