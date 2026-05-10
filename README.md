@@ -42,6 +42,57 @@ A microservice-based internal tool for looking up customers and their order hist
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8)
 - MySQL 8.x (or compatible — MariaDB 10.6+)
 
+## Build & Run Scripts
+
+The `BuildAndRun/` folder contains scripts to build and run each service without typing `dotnet` commands manually.
+
+### Windows (`BuildAndRun/Windows/`)
+
+| Script | What it does |
+|---|---|
+| `build.bat` | Restores and builds the entire solution in Release mode |
+| `run-customer-service.bat` | Starts CustomerService on port 5001 |
+| `run-gateway.bat` | Starts Gateway on port 5000 |
+| `run-frontend.bat` | Starts Frontend on port 5002 |
+
+**Usage:**
+1. Complete steps 1 and 2 from [Quick Start](#quick-start) (database + connection string).
+2. Double-click (or run from a terminal) `BuildAndRun\Windows\build.bat` to build.
+3. Open three terminal windows and run one script in each:
+   ```
+   BuildAndRun\Windows\run-customer-service.bat
+   BuildAndRun\Windows\run-gateway.bat
+   BuildAndRun\Windows\run-frontend.bat
+   ```
+
+### Linux (`BuildAndRun/Linux/`)
+
+| Script | What it does |
+|---|---|
+| `build.sh` | Restores and builds the entire solution in Release mode |
+| `run-customer-service.sh` | Starts CustomerService on port 5001 |
+| `run-gateway.sh` | Starts Gateway on port 5000 |
+| `run-frontend.sh` | Starts Frontend on port 5002 |
+
+**Usage:**
+1. Complete steps 1 and 2 from [Quick Start](#quick-start) (database + connection string).
+2. Make the scripts executable (one-time):
+   ```bash
+   chmod +x BuildAndRun/Linux/*.sh
+   ```
+3. Build the solution:
+   ```bash
+   ./BuildAndRun/Linux/build.sh
+   ```
+4. Open three terminal windows and run one script in each:
+   ```bash
+   ./BuildAndRun/Linux/run-customer-service.sh
+   ./BuildAndRun/Linux/run-gateway.sh
+   ./BuildAndRun/Linux/run-frontend.sh
+   ```
+
+---
+
 ## Quick Start
 
 ### 1. Create the Database
